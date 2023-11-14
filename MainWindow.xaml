@@ -13,8 +13,8 @@
         <Button Content="Reset" x:Name="ResetButton" Click="ResetButton_Click" HorizontalAlignment="Left" Margin="449,60,0,0" VerticalAlignment="Top" Width="93"/>
         <Button Content="Glider" x:Name="GliderButton" Click="GliderButton_Click"  HorizontalAlignment="Left" Margin="606,92,0,0" VerticalAlignment="Top" Width="79"/>
         <Button Content="Beacon" x:Name="BeaconButton" Click="BeaconButton_Click" HorizontalAlignment="Left" Margin="606,119,0,0" VerticalAlignment="Top" Width="79"/>
-        <CheckBox Content="Draw" x:Name="Draw" Checked="Draw_Checked" HorizontalAlignment="Left" Margin="449,122,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="Erase" x:Name="Erase" Checked="Erase_Checked" HorizontalAlignment="Left" Margin="449,142,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Draw" x:Name="Draw" Checked="Draw_Checked" Unchecked="Draw_Unchecked" HorizontalAlignment="Left" Margin="449,122,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Erase" x:Name="Erase" Checked="Erase_Checked" Unchecked="Erase_Unchecked" HorizontalAlignment="Left" Margin="449,142,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ConsoleTextBox" HorizontalAlignment="Left" Margin="449,406,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="261"/>
 
     </Grid>

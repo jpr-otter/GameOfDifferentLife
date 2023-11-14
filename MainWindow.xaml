@@ -16,6 +16,7 @@
         <CheckBox Content="Draw" x:Name="Draw" Checked="Draw_Checked" Unchecked="Draw_Unchecked" HorizontalAlignment="Left" Margin="449,122,0,0" VerticalAlignment="Top"/>
         <CheckBox Content="Erase" x:Name="Erase" Checked="Erase_Checked" Unchecked="Erase_Unchecked" HorizontalAlignment="Left" Margin="449,142,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ConsoleTextBox" HorizontalAlignment="Left" Margin="449,406,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="261"/>
+        <Button x:Name="Forward" Content="Forward" Click="Forward_Click" HorizontalAlignment="Left" Margin="444,184,0,0" VerticalAlignment="Top" Width="98"/>
 
     </Grid>
 </Window>

@@ -24,14 +24,17 @@ namespace GameOfDifferentLife
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
 
-        private bool isGridCreated = false;        
+        private bool isGridCreated = false;
         private bool drawboxIsChecked = false;
         private bool eraseboxIsChecked = false;
         private bool mousePressed = false;
-        
+
+        const int amountOfCellsX = 20;
+        const int amountOfCellsY = 20;
+
         private void LogMessage(string message)
         {
             ConsoleTextBox.Clear();
@@ -39,10 +42,7 @@ namespace GameOfDifferentLife
         }
 
         private void IsPainting()
-        {
-            const int amountOfCellsX = 20;
-            const int amountOfCellsY = 20;
-
+        {           
             for (int rows = 0; rows < amountOfCellsX; rows++)
             {
                 for (int cols = 0; cols < amountOfCellsY; cols++)
@@ -67,7 +67,7 @@ namespace GameOfDifferentLife
                 }
             }
         }
-        
+
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             if (isGridCreated)
@@ -77,23 +77,23 @@ namespace GameOfDifferentLife
             }
             IsPainting();
             isGridCreated = true;
-        }    
+        }
 
         private void Cell_MouseDown(object sender, MouseButtonEventArgs e)
         {
-           
+
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? Brushes.Black : Brushes.WhiteSmoke;
             mousePressed = true;
-            
+
             //throw new NotImplementedException();
         }
 
         private void Draw_Click(object sender, RoutedEventArgs e)
         {
-           
+
         }
         private void Cell_MouseMove(object sender, MouseEventArgs e)
-        {            
+        {
             if (drawboxIsChecked && !eraseboxIsChecked && mousePressed)
             {
                 //((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? Brushes.Black : Brushes.WhiteSmoke;
@@ -105,7 +105,7 @@ namespace GameOfDifferentLife
             }
         }
         private void Cell_MouseUp(object sender, MouseButtonEventArgs e)
-        {           
+        {
             mousePressed = false;
         }
 
@@ -122,28 +122,48 @@ namespace GameOfDifferentLife
         private void Erase_Checked(object sender, RoutedEventArgs e)
         {
             eraseboxIsChecked = true;
+            if (eraseboxIsChecked)
+            {
+                LogMessage("You are in 'erase' mode");
+                return;
+            }
         }
-        
+
         private void Erase_Unchecked(object sender, RoutedEventArgs e)
         {
             eraseboxIsChecked = false;
+            if (!eraseboxIsChecked)
+            {
+                ConsoleTextBox.Clear();
+                return;
+            }
         }
 
         private void Draw_Checked(object sender, RoutedEventArgs e)
         {
             drawboxIsChecked = true;
+            if (drawboxIsChecked)
+            {
+                LogMessage("You are in 'draw' mode");
+                return;
+            }
             //isDrawing = true;
         }
         private void Draw_Unchecked(object sender, RoutedEventArgs e)
         {
-            drawboxIsChecked = false;            
-            mousePressed = false; 
+            drawboxIsChecked = false;
+            mousePressed = false;
+            if (!drawboxIsChecked)
+            {
+                ConsoleTextBox.Clear();
+                return;
+            }
         }
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             theCanvas.Children.Clear();
 
-            IsPainting();     
+            IsPainting();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -151,6 +171,15 @@ namespace GameOfDifferentLife
 
         }
 
-        
+        private void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            for (int rows = 0; rows < amountOfCellsX; rows++)
+            {
+                for (int cols = 0; cols < amountOfCellsY; cols++)
+                {
+
+                }
+            }
+        }
     }
 }

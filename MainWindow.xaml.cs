@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace GameOfDifferentLife
 {
@@ -24,16 +16,54 @@ namespace GameOfDifferentLife
         public MainWindow()
         {
             InitializeComponent();
+            //timer.Interval = TimeSpan.FromSeconds(1 / SpeedSlider.Value);            
+        }       
 
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            UpdateCells();
+        }
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            
+            timer.Interval = TimeSpan.FromSeconds(1 / SpeedSlider.Value);
         }
 
         private bool isGridCreated = false;
         private bool drawboxIsChecked = false;
         private bool eraseboxIsChecked = false;
         private bool mousePressed = false;
+        private bool timerIsRunning = false;
+        int userSetSize;
 
-        const int amountOfCellsX = 20;
-        const int amountOfCellsY = 20;
+        const int amountOfCellsX = 40;
+        const int amountOfCellsY = 40;
+
+        public void SetSize_Click(object sender, RoutedEventArgs e)
+        {
+
+            //bool isInteger = int.TryParse(Size.Text, out amountOfCellsX);
+            //if (isInteger)
+            //{
+            //    amountOfCellsX = int.Parse(Size.Text);
+            //    amountOfCellsY = amountOfCellsX;
+            //}
+            //else if (!isInteger || userSetSize <= 0)
+            //{
+            //    LogMessage("Please input a integer greater than 2.");
+            //}
+            //else
+            //{
+            //    amountOfCellsX = 20;
+            //    amountOfCellsY = 20;
+            //}
+
+        }
+
+
+        DispatcherTimer timer = new DispatcherTimer();
+
+        Rectangle[,] cells = new Rectangle[amountOfCellsX, amountOfCellsY];
 
         private void LogMessage(string message)
         {
@@ -42,13 +72,12 @@ namespace GameOfDifferentLife
         }
 
         private void IsPainting()
-        {           
+        {
             for (int rows = 0; rows < amountOfCellsX; rows++)
             {
                 for (int cols = 0; cols < amountOfCellsY; cols++)
                 {
                     Rectangle cell = new Rectangle();
-
                     var cellCanvasWidth = theCanvas.ActualWidth / amountOfCellsX;
                     var cellCanvasHeight = theCanvas.ActualWidth / amountOfCellsY;
                     double cellSizeReduction = 2.0;
@@ -64,6 +93,49 @@ namespace GameOfDifferentLife
                     cell.MouseMove += Cell_MouseMove;
                     cell.MouseUp += Cell_MouseUp;
 
+                    cells[rows, cols] = cell;
+
+                }
+            }
+        }
+
+        private void UpdateCells()
+        {
+            int[,] amountOfNeighbours = new int[amountOfCellsX, amountOfCellsY];
+
+            int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1 };
+            int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+            for (int rows = 0; rows < amountOfCellsX; rows++)
+            {
+                for (int cols = 0; cols < amountOfCellsY; cols++)
+                {
+                    int neighbourCounter = 0;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        int nx = (rows + dx[i] + amountOfCellsX) % amountOfCellsX;
+                        int ny = (cols + dy[i] + amountOfCellsY) % amountOfCellsY;
+                        if (cells[nx, ny].Fill == Brushes.Black)
+                        {
+                            neighbourCounter++;
+                        }
+                    }
+                    amountOfNeighbours[rows, cols] = neighbourCounter;
+                }
+            }
+
+            for (int rows = 0; rows < amountOfCellsX; rows++)
+            {
+                for (int cols = 0; cols < amountOfCellsY; cols++)
+                {
+                    if (amountOfNeighbours[rows, cols] < 2 || amountOfNeighbours[rows, cols] > 3)
+                    {
+                        cells[rows, cols].Fill = Brushes.WhiteSmoke;
+                    }
+                    else if (amountOfNeighbours[rows, cols] == 3)
+                    {
+                        cells[rows, cols].Fill = Brushes.Black;
+                    }
                 }
             }
         }
@@ -173,13 +245,97 @@ namespace GameOfDifferentLife
 
         private void Forward_Click(object sender, RoutedEventArgs e)
         {
-            for (int rows = 0; rows < amountOfCellsX; rows++)
-            {
-                for (int cols = 0; cols < amountOfCellsY; cols++)
-                {
+            UpdateCells();
+                    /*
+                    for (int rows = 0; rows < amountOfCellsX; rows++)
+                    {
+                        for (int cols = 0; cols < amountOfCellsY; cols++)
+                        {
+                            int neighbourCounter = 0;
 
+                            int rowsAbove = rows - 1;
+                            if(rowsAbove < 0)
+                            {
+                                rowsAbove = amountOfCellsY - 1;
+                            }
+
+                            int rowsBelow = rows + 1;
+                            if (rowsBelow  >= amountOfCellsY)
+                            {
+                                rowsBelow = 0;
+                            }
+
+                            int colsLeft = cols - 1;
+                            if (colsLeft < 0)
+                            {
+                                colsLeft = amountOfCellsX -1;
+                            }
+
+                            int colsRight = cols + 1;
+                            if (colsRight >= amountOfCellsX)
+                            {
+                                colsRight = 0;
+                            }
+
+                            if (cells[rowsAbove, colsLeft].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+                            if (cells[rowsAbove, cols].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+                            if (cells[rowsAbove, colsRight].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+
+                            if (cells[rows, colsLeft].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+                            if (cells[rows, colsRight].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+
+                            if (cells[rowsBelow, colsLeft].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+                            if (cells[rowsBelow, cols].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+                            if (cells[rowsBelow, colsRight].Fill == Brushes.Black)
+                            {
+                                neighbourCounter++;
+                            }
+
+                            amountOfNeighbours[rows, cols] = neighbourCounter;
+                        }
+                    }
+                    */
                 }
+
+        private void Cycle_Click(object sender, RoutedEventArgs e)
+        {                     
+            if (!timerIsRunning)
+            {
+                timer.Tick += Timer_Tick;
+                timer.Start();
+                timerIsRunning = true;
+                (sender as Button).Content = "Stop Cycle";
+                LogMessage("You are running cycles.");
             }
-        }
+            else
+            {
+                timer.Stop();
+                timer.Tick -= Timer_Tick;
+                (sender as Button).Content = "Start Cycle";
+                LogMessage("You stopped the cycles.");
+                timerIsRunning = false;
+            }            
+        }        
     }
 }

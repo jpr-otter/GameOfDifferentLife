@@ -5,24 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfDifferentLife"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Game of Life" Height="450" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid>
-        <Canvas x:Name="theCanvas"  Margin="10,10,356,10"/>
-        <Button Content="Start" x:Name="StartButton" Click="StartButton_Click" HorizontalAlignment="Left" Margin="449,10,0,0" VerticalAlignment="Top" Width="93"/>
-        <Button Content="Clear Canvas" x:Name="ClearButton" Click="ClearButton_Click" HorizontalAlignment="Left" Margin="449,35,0,0" VerticalAlignment="Top" Width="93"/>
-        <Button Content="Reset" x:Name="ResetButton" Click="ResetButton_Click" HorizontalAlignment="Left" Margin="449,60,0,0" VerticalAlignment="Top" Width="93"/>
-        <Button Content="Glider" x:Name="GliderButton" Click="GliderButton_Click"  HorizontalAlignment="Left" Margin="606,92,0,0" VerticalAlignment="Top" Width="79"/>
-        <Button Content="Beacon" x:Name="BeaconButton" Click="BeaconButton_Click" HorizontalAlignment="Left" Margin="606,119,0,0" VerticalAlignment="Top" Width="79"/>
-        <CheckBox Content="Draw" x:Name="Draw" Checked="Draw_Checked" Unchecked="Draw_Unchecked" HorizontalAlignment="Left" Margin="449,107,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="Erase" x:Name="Erase" Checked="Erase_Checked" Unchecked="Erase_Unchecked" HorizontalAlignment="Left" Margin="449,129,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ConsoleTextBox" HorizontalAlignment="Left" Margin="449,406,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="261"/>
-        <Button x:Name="Forward" Content="Forward" Click="Forward_Click" HorizontalAlignment="Left" Margin="444,184,0,0" VerticalAlignment="Top" Width="98"/>
-        <Button x:Name="Cycle" Content="Start Cycle" Click="Cycle_Click" HorizontalAlignment="Left" Margin="444,209,0,0" VerticalAlignment="Top" Width="98"/>
-        <Slider x:Name="SpeedSlider" Minimum="1" Maximum="10" Value="1" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SpeedSlider_ValueChanged" HorizontalAlignment="Left" Margin="444,255,0,0" VerticalAlignment="Top" Width="98"/>
-        <TextBox x:Name="Size" HorizontalAlignment="Left" Margin="444,299,0,0" TextWrapping="Wrap" Text="Size input" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="449,234,0,0" TextWrapping="Wrap" Text="Cycle Speed" VerticalAlignment="Top" Width="93"/>
-        <TextBlock HorizontalAlignment="Left" Margin="444,278,0,0" TextWrapping="Wrap" Text="Size" VerticalAlignment="Top" Width="93"/>
-        <Button x:Name="SetSize" Content="Set" Click="SetSize_Click" HorizontalAlignment="Left" Margin="569,299,0,0" VerticalAlignment="Top" Height="18"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="579*"/>
+            <ColumnDefinition Width="151*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="theCanvas"  Margin="10,10,205,10" Grid.ColumnSpan="2"/>
+        <Button Content="Start" x:Name="StartButton" Click="StartButton_Click" HorizontalAlignment="Left" Margin="379,10,0,0" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
+        <Button Content="Clear Canvas" x:Name="ClearButton" Click="ClearButton_Click" HorizontalAlignment="Left" Margin="379,35,0,0" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
+        <Button Content="Reset" x:Name="ResetButton" Click="ResetButton_Click" HorizontalAlignment="Left" Margin="379,60,0,0" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
+        <Button Content="Glider" x:Name="GliderButton" Click="GliderButton_Click"  HorizontalAlignment="Left" Margin="536,92,0,0" VerticalAlignment="Top" Width="79" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Content="Beacon" x:Name="BeaconButton" Click="BeaconButton_Click" HorizontalAlignment="Left" Margin="536,119,0,0" VerticalAlignment="Top" Width="79" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <CheckBox Content="Draw" x:Name="Draw" Checked="Draw_Checked" Unchecked="Draw_Unchecked" HorizontalAlignment="Left" Margin="379,107,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <CheckBox Content="Erase" x:Name="Erase" Checked="Erase_Checked" Unchecked="Erase_Unchecked" HorizontalAlignment="Left" Margin="379,129,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="ConsoleTextBox" HorizontalAlignment="Left" Margin="379,406,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="261" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button x:Name="Forward" Content="Forward" Click="Forward_Click" HorizontalAlignment="Left" Margin="374,184,0,0" VerticalAlignment="Top" Width="98" Grid.Column="1"/>
+        <Button x:Name="Cycle" Content="Start Cycle" Click="Cycle_Click" HorizontalAlignment="Left" Margin="374,209,0,0" VerticalAlignment="Top" Width="98" Grid.Column="1"/>
+        <Slider x:Name="SpeedSlider" Minimum="1" Maximum="10" Value="1" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SpeedSlider_ValueChanged" HorizontalAlignment="Left" Margin="374,255,0,0" VerticalAlignment="Top" Width="98" Grid.Column="1"/>
+        <TextBox x:Name="Size" HorizontalAlignment="Left" Margin="374,299,0,0" TextWrapping="Wrap" Text="Size input" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="379,234,0,0" TextWrapping="Wrap" Text="Cycle Speed" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="374,278,0,0" TextWrapping="Wrap" Text="Size" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
+        <Button x:Name="SetSize" Content="Set" Click="SetSize_Click" HorizontalAlignment="Left" Margin="499,299,0,0" VerticalAlignment="Top" Height="18" Grid.Column="1"/>
 
     </Grid>
 </Window>

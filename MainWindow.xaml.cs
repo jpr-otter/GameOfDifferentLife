@@ -16,7 +16,8 @@ namespace GameOfDifferentLife
         public MainWindow()
         {
             InitializeComponent();
-            //timer.Interval = TimeSpan.FromSeconds(1 / SpeedSlider.Value);            
+            //timer.Interval = TimeSpan.FromSeconds(1 / SpeedSlider.Value);
+            LogMessage($"Cells alive: {totalAlive}\nCells dead: {totalDead}");
         }       
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -38,6 +39,8 @@ namespace GameOfDifferentLife
 
         const int amountOfCellsX = 40;
         const int amountOfCellsY = 40;
+        int totalAlive = 0;
+        int totalDead = 0;
 
         public void SetSize_Click(object sender, RoutedEventArgs e)
         {
@@ -101,10 +104,10 @@ namespace GameOfDifferentLife
 
         private void UpdateCells()
         {
-            int[,] amountOfNeighbours = new int[amountOfCellsX, amountOfCellsY];
+            int[,] amountOfNeighbours = new int[amountOfCellsX, amountOfCellsY];            
 
-            int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1 };
-            int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1 };
+            int[] offSetX = { -1, -1, -1, 0, 0, 1, 1, 1 };
+            int[] offSetY = { -1, 0, 1, -1, 1, -1, 0, 1 };
 
             for (int rows = 0; rows < amountOfCellsX; rows++)
             {
@@ -113,9 +116,9 @@ namespace GameOfDifferentLife
                     int neighbourCounter = 0;
                     for (int i = 0; i < 8; i++)
                     {
-                        int nx = (rows + dx[i] + amountOfCellsX) % amountOfCellsX;
-                        int ny = (cols + dy[i] + amountOfCellsY) % amountOfCellsY;
-                        if (cells[nx, ny].Fill == Brushes.Black)
+                        int neighbourX = (rows + offSetX[i] + amountOfCellsX) % amountOfCellsX;
+                        int neighbourY = (cols + offSetY[i] + amountOfCellsY) % amountOfCellsY;
+                        if (cells[neighbourX, neighbourY].Fill == Brushes.Black)
                         {
                             neighbourCounter++;
                         }
@@ -130,7 +133,7 @@ namespace GameOfDifferentLife
                 {
                     if (amountOfNeighbours[rows, cols] < 2 || amountOfNeighbours[rows, cols] > 3)
                     {
-                        cells[rows, cols].Fill = Brushes.WhiteSmoke;
+                        cells[rows, cols].Fill = Brushes.WhiteSmoke;                        
                     }
                     else if (amountOfNeighbours[rows, cols] == 3)
                     {
@@ -155,6 +158,11 @@ namespace GameOfDifferentLife
         {
 
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? Brushes.Black : Brushes.WhiteSmoke;
+            //(((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? totalAlive++ : totalDead++;
+            if (((Rectangle)sender).Fill == Brushes.WhiteSmoke){
+                totalAlive++;
+            }
+            else { totalDead++; }
             mousePressed = true;
 
             //throw new NotImplementedException();

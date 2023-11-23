@@ -16,8 +16,8 @@
         <Button Content="Start" x:Name="StartButton" Click="StartButton_Click" HorizontalAlignment="Left" Margin="379,10,0,0" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
         <Button Content="Clear Canvas" x:Name="ClearButton" Click="ClearButton_Click" HorizontalAlignment="Left" Margin="379,35,0,0" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
         <Button Content="Reset" x:Name="ResetButton" Click="ResetButton_Click" HorizontalAlignment="Left" Margin="379,60,0,0" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
-        <Button Content="Glider" x:Name="GliderButton" Click="GliderButton_Click"  HorizontalAlignment="Left" Margin="536,92,0,0" VerticalAlignment="Top" Width="79" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Content="Beacon" x:Name="BeaconButton" Click="BeaconButton_Click" HorizontalAlignment="Left" Margin="536,119,0,0" VerticalAlignment="Top" Width="79" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Content="Glider" x:Name="GliderButton" Click="GliderButton_Click"  HorizontalAlignment="Left" Margin="536,85,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Content="Beacon" x:Name="BeaconButton" Click="BeaconButton_Click" HorizontalAlignment="Left" Margin="536,110,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" Grid.ColumnSpan="2"/>
         <CheckBox Content="Draw" x:Name="Draw" Checked="Draw_Checked" Unchecked="Draw_Unchecked" HorizontalAlignment="Left" Margin="379,107,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <CheckBox Content="Erase" x:Name="Erase" Checked="Erase_Checked" Unchecked="Erase_Unchecked" HorizontalAlignment="Left" Margin="379,129,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <TextBox x:Name="ConsoleTextBox" HorizontalAlignment="Left" Margin="379,406,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="261" Grid.Column="1" Grid.ColumnSpan="2"/>
@@ -29,6 +29,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="379,234,0,0" TextWrapping="Wrap" Text="Cycle Speed" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="374,278,0,0" TextWrapping="Wrap" Text="Size" VerticalAlignment="Top" Width="93" Grid.Column="1"/>
         <Button x:Name="SetSize" Content="Set" Click="SetSize_Click" HorizontalAlignment="Left" Margin="499,299,0,0" VerticalAlignment="Top" Height="18" Grid.Column="1"/>
+        <Button x:Name="RandomPattern" Grid.Column="1" Content="Create Random Pattern" Click="RandomPattern_Click" HorizontalAlignment="Left" Margin="536,60,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="137"/>
 
     </Grid>
 </Window>

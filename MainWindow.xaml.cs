@@ -16,9 +16,11 @@ namespace GameOfDifferentLife
         public MainWindow()
         {
             InitializeComponent();
+            cells = new Rectangle[amountOfCellsX, amountOfCellsY];
+
             //timer.Interval = TimeSpan.FromSeconds(1 / SpeedSlider.Value);
             //GameInfos($"Cells alive: {totalAlive}\nCells dead: {totalDead}");
-        }       
+        }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
@@ -35,38 +37,35 @@ namespace GameOfDifferentLife
         private bool eraseboxIsChecked = false;
         private bool mousePressed = false;
         private bool timerIsRunning = false;
+        private bool isGliderMode = false;
         int userSetSize;
 
-        const int amountOfCellsX = 40;
-        const int amountOfCellsY = 40;
+        int amountOfCellsX = 40;
+        int amountOfCellsY = 40;
         int totalAlive = 0;
         int totalDead = 0;
 
+        Rectangle[,] cells; //= new Rectangle[amountOfCellsX, amountOfCellsY];
+        DispatcherTimer timer = new DispatcherTimer();
+        Random randomNumber = new Random();
+        private double cellCanvasWidth;
+        private double cellCanvasHeight;
+
         public void SetSize_Click(object sender, RoutedEventArgs e)
         {
+            // need to find out how to set the new size chosen by the player
+            bool isInteger = int.TryParse(Size.Text, out userSetSize);
+            if (isInteger && userSetSize > 2)
+            {
+                amountOfCellsX = userSetSize;
+                amountOfCellsY = userSetSize;
+            }
+            else
+            {
+                LogMessage("Please input an integer greater than 2.");
+            }           
 
-            //bool isInteger = int.TryParse(Size.Text, out amountOfCellsX);
-            //if (isInteger)
-            //{
-            //    amountOfCellsX = int.Parse(Size.Text);
-            //    amountOfCellsY = amountOfCellsX;
-            //}
-            //else if (!isInteger || userSetSize <= 0)
-            //{
-            //    LogMessage("Please input a integer greater than 2.");
-            //}
-            //else
-            //{
-            //    amountOfCellsX = 20;
-            //    amountOfCellsY = 20;
-            //}
-
-        }
-
-
-        DispatcherTimer timer = new DispatcherTimer();
-
-        Rectangle[,] cells = new Rectangle[amountOfCellsX, amountOfCellsY];
+        }              
 
         private void LogMessage(string message)
         {
@@ -105,6 +104,35 @@ namespace GameOfDifferentLife
                     cell.MouseUp += Cell_MouseUp;
 
                     cells[rows, cols] = cell;
+
+                }
+            }
+        }
+
+        private void randomPainting()
+        {
+            // dont know how to implement the random painter. lost track of how to do it!
+            for (int rows = 0; rows < amountOfCellsX; rows++)
+            {
+                for (int cols = 0; cols < amountOfCellsY; cols++)
+                {
+                    Rectangle cell = new Rectangle();
+                    var cellCanvasWidth = theCanvas.ActualWidth / amountOfCellsX;
+                    var cellCanvasHeight = theCanvas.ActualWidth / amountOfCellsY;
+                    double cellSizeReduction = 2.0;
+
+                    cell.Width = (cellCanvasWidth) - cellSizeReduction;
+                    cell.Height = (cellCanvasHeight) - cellSizeReduction;
+                    cell.Fill = randomNumber.Next(0, 2) == 1 ? Brushes.WhiteSmoke : Brushes.Black;
+                    theCanvas.Children.Add(cell);
+                    Canvas.SetLeft(cell, cols * cellCanvasWidth);
+                    Canvas.SetTop(cell, rows * cellCanvasHeight);
+
+                    //cell.MouseDown += Cell_MouseDown;
+                    //cell.MouseMove += Cell_MouseMove;
+                    //cell.MouseUp += Cell_MouseUp;
+
+                    //cells[rows, cols] = cell;
 
                 }
             }
@@ -163,7 +191,7 @@ namespace GameOfDifferentLife
                 LogMessage("Grid has already been created.");
                 return;
             }
-            IsPainting();
+            IsPainting();            
             isGridCreated = true;
         }
 
@@ -212,7 +240,7 @@ namespace GameOfDifferentLife
 
         private void GliderButton_Click(object sender, RoutedEventArgs e)
         {
-
+            isGliderMode = true;
         }
 
         private void BeaconButton_Click(object sender, RoutedEventArgs e)
@@ -295,6 +323,54 @@ namespace GameOfDifferentLife
                 LogMessage("You stopped the cycles.");
                 timerIsRunning = false;
             }            
-        }        
+        }
+
+        private void RandomPattern_Click(object sender, RoutedEventArgs e)
+        {
+            randomPainting();            
+        }
+        //private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (isGliderMode)
+        //    {
+        //        // Get mouse position
+        //        Point mousePos = e.GetPosition(theCanvas);
+
+        //        // Calculate cell position
+        //        int cellX = (int)(mousePos.X / cellCanvasWidth);
+        //        int cellY = (int)(mousePos.Y / cellCanvasHeight);
+
+        //        // Draw temporary glider shape at cell position
+        //        DrawGlider(cellX, cellY, Brushes.Gray);
+        //    }
+        //}
+        //private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (isGliderMode)
+        //    {
+        //        // Get mouse position
+        //        Point mousePos = e.GetPosition(theCanvas);
+
+        //        // Calculate cell position
+        //        int cellX = (int)(mousePos.X / cellCanvasWidth);
+        //        int cellY = (int)(mousePos.Y / cellCanvasHeight);
+
+        //        // Draw permanent glider shape at cell position
+        //        DrawGlider(cellX, cellY, Brushes.Black);
+
+        //        // Exit glider mode
+        //        isGliderMode = false;
+        //    }
+        //}
+        //private void DrawGlider(int x, int y, Brush color)
+        //{
+        //    // Draw glider shape at (x, y)
+        //    // You need to check the boundaries of the grid
+        //    cells[x + 1, y].Fill = color;
+        //    cells[x + 2, y + 1].Fill = color;
+        //    cells[x, y + 2].Fill = color;
+        //    cells[x + 1, y + 2].Fill = color;
+        //    cells[x + 2, y + 2].Fill = color;
+        //}
     }
 }

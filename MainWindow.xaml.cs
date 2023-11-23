@@ -17,7 +17,7 @@ namespace GameOfDifferentLife
         {
             InitializeComponent();
             //timer.Interval = TimeSpan.FromSeconds(1 / SpeedSlider.Value);
-            LogMessage($"Cells alive: {totalAlive}\nCells dead: {totalDead}");
+            //GameInfos($"Cells alive: {totalAlive}\nCells dead: {totalDead}");
         }       
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -71,11 +71,19 @@ namespace GameOfDifferentLife
         private void LogMessage(string message)
         {
             ConsoleTextBox.Clear();
-            ConsoleTextBox.Text += message + "\n";
+            ConsoleTextBox.Text += message + "\n";               
+        }
+        private void GameInfos (string message)
+        {
+            // what other information about the game could be presented to inform the player?
+            CellCountTextBox.Clear();            
+            CellCountTextBox.Text += message + "\n";
         }
 
         private void IsPainting()
         {
+            // need to find a solution for printing larger patters of alive cells to the canvas.
+            // click a beacon or glider, and let i hover above the canvas, click to make it final and paint it onto the canvas
             for (int rows = 0; rows < amountOfCellsX; rows++)
             {
                 for (int cols = 0; cols < amountOfCellsY; cols++)
@@ -120,7 +128,7 @@ namespace GameOfDifferentLife
                         int neighbourY = (cols + offSetY[i] + amountOfCellsY) % amountOfCellsY;
                         if (cells[neighbourX, neighbourY].Fill == Brushes.Black)
                         {
-                            neighbourCounter++;
+                            neighbourCounter++;                           
                         }
                     }
                     amountOfNeighbours[rows, cols] = neighbourCounter;
@@ -138,9 +146,14 @@ namespace GameOfDifferentLife
                     else if (amountOfNeighbours[rows, cols] == 3)
                     {
                         cells[rows, cols].Fill = Brushes.Black;
+                        totalAlive++;
                     }
                 }
             }
+            // dont know where to put this? and i need to figure out how to count the cells in a way that makes sense
+            // probably better to count cells that are alive or come to life and count only those a dead that have been alive before
+            //GameInfos($"Cells alive: {totalAlive}\nCells dead: {totalDead}");
+
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -160,10 +173,16 @@ namespace GameOfDifferentLife
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? Brushes.Black : Brushes.WhiteSmoke;
             //(((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? totalAlive++ : totalDead++;
             if (((Rectangle)sender).Fill == Brushes.WhiteSmoke){
-                totalAlive++;
+                totalDead++;
             }
-            else { totalDead++; }
+            else 
+            { 
+                totalAlive++;
+                //totalAlive--;
+            }
             mousePressed = true;
+
+            GameInfos($"Cells alive: {totalAlive}\nCells dead: {totalDead}");
 
             //throw new NotImplementedException();
         }
@@ -178,6 +197,8 @@ namespace GameOfDifferentLife
             {
                 //((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.WhiteSmoke) ? Brushes.Black : Brushes.WhiteSmoke;
                 ((Rectangle)sender).Fill = Brushes.Black;
+                totalAlive++;
+
             }
             else if (eraseboxIsChecked && !drawboxIsChecked && mousePressed)
             {
@@ -254,77 +275,7 @@ namespace GameOfDifferentLife
         private void Forward_Click(object sender, RoutedEventArgs e)
         {
             UpdateCells();
-                    /*
-                    for (int rows = 0; rows < amountOfCellsX; rows++)
-                    {
-                        for (int cols = 0; cols < amountOfCellsY; cols++)
-                        {
-                            int neighbourCounter = 0;
-
-                            int rowsAbove = rows - 1;
-                            if(rowsAbove < 0)
-                            {
-                                rowsAbove = amountOfCellsY - 1;
-                            }
-
-                            int rowsBelow = rows + 1;
-                            if (rowsBelow  >= amountOfCellsY)
-                            {
-                                rowsBelow = 0;
-                            }
-
-                            int colsLeft = cols - 1;
-                            if (colsLeft < 0)
-                            {
-                                colsLeft = amountOfCellsX -1;
-                            }
-
-                            int colsRight = cols + 1;
-                            if (colsRight >= amountOfCellsX)
-                            {
-                                colsRight = 0;
-                            }
-
-                            if (cells[rowsAbove, colsLeft].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-                            if (cells[rowsAbove, cols].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-                            if (cells[rowsAbove, colsRight].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-
-                            if (cells[rows, colsLeft].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-                            if (cells[rows, colsRight].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-
-                            if (cells[rowsBelow, colsLeft].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-                            if (cells[rowsBelow, cols].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-                            if (cells[rowsBelow, colsRight].Fill == Brushes.Black)
-                            {
-                                neighbourCounter++;
-                            }
-
-                            amountOfNeighbours[rows, cols] = neighbourCounter;
-                        }
-                    }
-                    */
-                }
+        }
 
         private void Cycle_Click(object sender, RoutedEventArgs e)
         {                     
